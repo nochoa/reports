@@ -1,6 +1,7 @@
 package ${namePackage};
 
 import java.beans.PropertyDescriptor;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.builders.ReflectiveReportBuilder;
 
-public abstract ${typeFile} ${nameFile} {
+public abstract ${typeFile} ${nameClass} {
 	private static final String PATH = "${directoryGenerationReport}";
 	protected JasperPrint jp;
 	protected Map<String, Object> params = new HashMap<String, Object>();
@@ -40,7 +41,11 @@ public abstract ${typeFile} ${nameFile} {
 
 	}
 
-	public abstract String getNameReport();
+	public String getNameReport(){
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.applyPattern("dd-MM-yyyy");
+		return "Reporte - " + sdf.format(new Date());
+	};
 
 	public String[] getColumns() {
 		final Object item = getData().iterator().next();

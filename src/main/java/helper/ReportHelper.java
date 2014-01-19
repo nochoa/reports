@@ -4,6 +4,7 @@
 package helper;
 
 import java.beans.PropertyDescriptor;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,11 @@ public abstract class ReportHelper {
 
 	}
 
-	public abstract String getNameReport();
+	public String getNameReport() {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.applyPattern("dd-MM-yyyy");
+		return "Reporte - " + sdf.format(new Date());
+	};
 
 	public String[] getColumns() {
 		final Object item = getData().iterator().next();

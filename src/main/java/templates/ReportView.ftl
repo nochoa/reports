@@ -1,7 +1,7 @@
 <#-- Template que genera la vista para el reporte -->
 package ${namePackage};
 
-import ${namePackageHelper}.${nameHelper}.Type;
+import ${namePackageHelper}.${nameReportHelper}.Type;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
@@ -13,10 +13,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 
-public ${typeFile} ${nameFile} {
+public ${typeFile} ${nameClass} {
 	public static void main(String[] args) {
 
-		
 		buildViewReport();
 
 	}
