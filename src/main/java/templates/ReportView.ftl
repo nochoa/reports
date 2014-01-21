@@ -54,7 +54,7 @@ public ${typeFile} ${nameClass} {
 
 				} catch (Exception e) {
 					System.out
-							.println("No se pudo generar el reporte en formato XLS");
+							.println("No se pudo generar el reporte en formato PDF" + e);
 				}
 			}
 		};
@@ -74,7 +74,7 @@ public ${typeFile} ${nameClass} {
 							.println("El reporte en formato XLS fue generado exitosamente");
 				} catch (Exception e) {
 					System.out
-							.println("No se pudo generar el reporte en formato XLS");
+							.println("No se pudo generar el reporte en formato XLS" + e);
 				}
 			}
 		};

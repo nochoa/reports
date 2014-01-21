@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Persona implements Serializable {
@@ -13,6 +14,9 @@ public class Persona implements Serializable {
 	private Long id;
 	private String nombre;
 	private String apellido;
+
+	@ManyToOne
+	private Pais pais;
 
 	public Long getId() {
 		return id;
@@ -36,6 +40,14 @@ public class Persona implements Serializable {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 }

@@ -5,6 +5,7 @@ package helper;
 
 import java.beans.PropertyDescriptor;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,23 +58,26 @@ public abstract class ReportHelper {
 		return "Reporte - " + sdf.format(new Date());
 	};
 
+	/**
+	 * Solo considera aquellos atributos simple, sin relacion alguna.
+	 * 
+	 * @return Lista de columnas a visualizar en el reporte
+	 */
 	public String[] getColumns() {
 		final Object item = getData().iterator().next();
 		PropertyDescriptor[] properties = PropertyUtils
 				.getPropertyDescriptors(item);
-		String[] columns = new String[properties.length - 2];
+		List<String> columns = new ArrayList<String>();
 
-		int cant = 0;
 		for (int i = 0; i < properties.length; i++) {
 			String name = properties[i].getName();
 			if (isValidProperty(properties[i])) {
-				columns[cant] = name;
-				cant++;
+				columns.add(name);
 			}
 
 		}
 
-		return columns;
+		return columns.toArray(new String[0]);
 	}
 
 	private static boolean isValidProperty(final PropertyDescriptor _property) {
@@ -101,6 +105,7 @@ public abstract class ReportHelper {
 	public abstract List<?> getData();
 
 	public DynamicReport buildReport() throws Exception {
+
 		return new ReflectiveReportBuilder(getData(), getColumns()).build();
 	};
 
