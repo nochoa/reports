@@ -13,33 +13,53 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**
+ * 
+ * Clase utilizada para generar archivos utilizando freemarker.
+ * 
  * @author Nathalia Ochoa
  * 
  * @since 1.0
  * @version 1.0 Jan 02, 2014
  */
 public class FreeMarkerHelper {
+
 	private static final String PERSISTENCE_UNIT = "reports";
 	private static final String PERSISTENCE_HELPER = "PersistenceHelper";
 	private static final String REPORT_HELPER = "ReportHelper";
 
+	// Directorio donde se encuentran los templates con extension ftl.
+	private static String LOCATION_TEMPLATE = "src/main/java/templates/";
+
+	// Templates
 	private static final String REPORT_FTL = "Report.ftl";
 	private static final String REPORT_HELPER_FTL = "ReportHelper.ftl";
 	private static final String PERSISTENCE_FTL = "PersistenceHelper.ftl";
 	private static final String REPORT_VIEW_FTL = "ReportView.ftl";
 
-	// Directorio donde se encuentran los templates con extension ftl
-	private static String LOCATION_TEMPLATE = "src/main/java/templates/";
+	// Directorio o ubicacion donde se desean generar los archivos.
 	private static String LOCATION_GENERATION_REPORT = "src/main/java/generations/report/";
 	private static String LOCATION_GENERATION_HELPER = "src/main/java/generations/helper/";
 
+	// Paquetes donde se desean generar los archivos.
 	private static String PACKAGE_GENERATION_HELPER = "generations.helper";
 	private static String PACKAGE_GENERATION_REPORT = "generations.report";
+
+	// Directorio donde se generaran los reportes.
 	public static final String DIRECTORY_GENERATION_REPORT = "/home/nochoa/devel/generaciones/generality/";
 
-	private static Template getTemplate(String file) {
+	/**
+	 * Obtiene el template con extension ftl que se desea utilizar para generar
+	 * el archivo.
+	 * 
+	 * @param nameTemplate
+	 *            Nombre del template
+	 * 
+	 * @return
+	 */
+	private static Template getTemplate(String nameTemplate) {
 		try {
-			return getConfiguration().getTemplate(LOCATION_TEMPLATE + file);
+			return getConfiguration().getTemplate(
+					LOCATION_TEMPLATE + nameTemplate);
 		} catch (IOException e) {
 			System.out.println("No se pudo obtener el template" + e);
 			return null;
@@ -48,12 +68,13 @@ public class FreeMarkerHelper {
 	}
 
 	/**
+	 * Genera las clases necesarias para un reporte, esto es la logica y la
+	 * vista.
 	 * 
-	 * @param nameTemplate
 	 * @param nameFile
 	 *            Nombre del archivo que generara freeemarker (debe ser sin la
-	 *            extension)
-	 * @param data
+	 *            extension).
+	 * 
 	 */
 	public static void generateReport(String nameFile) {
 		generateClassReport(nameFile);
@@ -140,6 +161,21 @@ public class FreeMarkerHelper {
 
 	}
 
+	/**
+	 * Genera un arhivo utilizando freemarker.
+	 * 
+	 * @param nameTemplate
+	 *            Nombre del template a utilizar.
+	 * @param nameFile
+	 *            Nombre del archivo a generar
+	 * @param fileGeneration
+	 *            Tipo de archivo que se desea generar con su correspondiente
+	 *            extension.
+	 * @param data
+	 *            Lista de parametros mapeados con los parametros del template.
+	 * @param locationGeneration
+	 *            Paquete donde se desea generar el archivo.
+	 */
 	private static void generate(String nameTemplate, String nameFile,
 			FileGeneration fileGeneration, Map<String, Object> data,
 			String locationGeneration) {

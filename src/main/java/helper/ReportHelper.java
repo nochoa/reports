@@ -27,6 +27,9 @@ import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.builders.ReflectiveReportBuilder;
 
 /**
+ * 
+ * Clase utilizada para la generación de reportes.
+ * 
  * @author Nathalia Ochoa
  * 
  * @since 1.0
@@ -38,6 +41,12 @@ public abstract class ReportHelper {
 	protected Map<String, Object> params = new HashMap<String, Object>();
 	protected DynamicReport dr;
 
+	/**
+	 * Define los tipos de reportes permitidos
+	 * 
+	 * @author Nathalia Ochoa
+	 * 
+	 */
 	public enum Type {
 		pdf(".pdf"), xls(".xls");
 		private String extension;
@@ -52,6 +61,11 @@ public abstract class ReportHelper {
 
 	}
 
+	/**
+	 * Define el nombre del reporte que sera generado.
+	 * 
+	 * @return "Reporte" - fecha de la generacion
+	 */
 	public String getNameReport() {
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		sdf.applyPattern("dd-MM-yyyy");
@@ -59,7 +73,8 @@ public abstract class ReportHelper {
 	};
 
 	/**
-	 * Solo considera aquellos atributos simple, sin relacion alguna.
+	 * Recorre las propiedades de la entidad y solo considera aquellos atributos
+	 * simples, sin relacion alguna y que no sea el id.
 	 * 
 	 * @return Lista de columnas a visualizar en el reporte
 	 */
@@ -80,6 +95,14 @@ public abstract class ReportHelper {
 		return columns.toArray(new String[0]);
 	}
 
+	/**
+	 * Verifica si una propiedad de la entidad es valida, esto es, si no es el
+	 * identidicador, ni el atributo ni una propiedad compuesta.
+	 * 
+	 * @param _property
+	 *            Propiedad a analizar
+	 * @return
+	 */
 	private static boolean isValidProperty(final PropertyDescriptor _property) {
 		String name = _property.getName();
 		return !"class".equals(name) && !"id".equals(name)
@@ -104,6 +127,13 @@ public abstract class ReportHelper {
 
 	public abstract List<?> getData();
 
+	/**
+	 * Construye un reporte simple, basandose en los atributos simples de la
+	 * entidad de la lista de elementos.
+	 * 
+	 * @return Reporte configurado correctamente.
+	 * @throws Exception
+	 */
 	public DynamicReport buildReport() throws Exception {
 
 		return new ReflectiveReportBuilder(getData(), getColumns()).build();
@@ -113,6 +143,13 @@ public abstract class ReportHelper {
 		return new ClassicLayoutManager();
 	}
 
+	/**
+	 * Genera un determinado reporte, cosiderando el tipo del mismo.
+	 * 
+	 * @param type
+	 *            Tipo del reporte que se desea generar.
+	 * @throws Exception
+	 */
 	protected void exportReport(Type type) throws Exception {
 
 		final String path = DIRECTORY_GENERATION_REPORT + getNameReport();
@@ -124,6 +161,13 @@ public abstract class ReportHelper {
 		}
 	}
 
+	/**
+	 * Genera un reporte en formato PDF.
+	 * 
+	 * @param path
+	 *            Ubicacion donde se generaran los reportes.
+	 * @throws Exception
+	 */
 	protected void exportReportPdf(String path) throws Exception {
 		JRPdfExporter exporter = new JRPdfExporter();
 
@@ -134,6 +178,13 @@ public abstract class ReportHelper {
 
 	}
 
+	/**
+	 * Genera un reporte en formato XLS.
+	 * 
+	 * @param path
+	 *            Ubicacion donde se generaran los reportes.
+	 * @throws Exception
+	 */
 	protected void exportReportXls(String path) throws Exception {
 
 		JRXlsExporter exporter = new JRXlsExporter();
@@ -154,6 +205,14 @@ public abstract class ReportHelper {
 
 	}
 
+	/**
+	 * Metodo que configura el dataSource y los parametros del reporte a
+	 * generar.
+	 * 
+	 * @param type
+	 *            Tipo de reporte que se desea generar.
+	 * @throws Exception
+	 */
 	public void generateReport(Type type) throws Exception {
 
 		dr = buildReport();
